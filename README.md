@@ -17,7 +17,7 @@ Open another terminal and navigate to .../sigma/frontend, then enter:
 *npm* automatically opens a browser tab with the client URL, if not, navigate to
 [http://127.0.0.1:8080](http://127.0.0.1:8080/)
 
-Once a contact has been register you can fetch from the db like this; in a shell
+Once a contact has been registered you can fetch from the db like this; in a shell
 session navigate to .../sigma, then enter:
 - python manage.py shell
 
