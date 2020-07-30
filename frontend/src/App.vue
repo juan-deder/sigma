@@ -30,7 +30,7 @@
                 ¡Bien!
               </div>
               <div class="invalid-feedback">
-                Campo requerido.
+                Departamento requerido.
               </div>
             </div>
             <div class="form-group">
@@ -45,7 +45,7 @@
                 ¡Bien!
               </div>
               <div class="invalid-feedback">
-                Campo requerido.
+                Ciudad requerida.
               </div>
             </div>
             <div class="form-group">
@@ -56,7 +56,7 @@
                 ¡Bien!
               </div>
               <div class="invalid-feedback">
-                Campo requerido.
+                Nombre requerido.
               </div>
             </div>
             <div class="form-group">
@@ -67,21 +67,36 @@
                 ¡Bien!
               </div>
               <div class="invalid-feedback">
-                Campo requerido
+                Correo requerido
               </div>
             </div>
-            <button type="submit" class="btn mx-auto d-block rounded-pill text-white font-weight-bold">
+            <button id="submit" type="submit" class="btn mx-auto d-block rounded-pill text-white font-weight-bold">
               ENVIAR
             </button>
           </form>
         </div>
       </div>
     </div>
+
+    <div class="modal" id="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-success">
+            Tu información ha sido recibida satisfactoriamente
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 import gql from 'graphql-tag'
+import $ from 'jquery'
 
 export default {
   name: 'App',
@@ -98,7 +113,9 @@ export default {
           }`,
           variables: this.contact,
           update:(store, {data}) => {
-            console.log(data)
+            $('#modal').modal()
+            Object.assign(this.contact, {state: '', city: '', name: '', email: ''})
+            this.wasValidated = false
           }
         })
       }
