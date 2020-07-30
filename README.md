@@ -1,7 +1,7 @@
 # Sigma
 
 ## Project quick initialization
-Required technologies: python, pip, venv, node, npm
+Required libraries: python, pip, venv, node.js, npm
 
 In one terminal enter:
 - git clone https://github.com/juan-deder/sigma.git sigma
@@ -11,14 +11,15 @@ In one terminal enter:
 - pip install -r requirements.txt
 - python manage.py runserver
 
-Open another terminal and navigate to .../sigma/frontend, then enter:
+Open up another terminal and navigate to .../sigma/frontend, then enter:
 - npm install && npm run serve
 
 *npm* automatically opens a browser tab with the client URL, if not, navigate to
-[http://127.0.0.1:8080](http://127.0.0.1:8080/)
+[http://127.0.0.1:8080](http://127.0.0.1:8080/).
 
-Once a contact has been registered you can fetch from the db like this; in a shell
+Once a contact has been registered you can fetch it from the database like this; in a shell
 session navigate to .../sigma, then enter:
+- source venv/bin/activate
 - python manage.py shell
 
 Then from the python interactive session, enter: 
@@ -31,7 +32,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> for contact in Contact.objects.all():
 ...     print(model_to_dict(contact))
 ... 
-# You should see a list of the registered contacts like this
+# You should see a list of the registered contacts like this:
 {'id': 1, 'name': 'a', 'email': 'a@e', 'city': 'La Pedrera', 'state': 'Amazonas'}
 {'id': 2, 'name': 'a', 'email': 'a@e', 'city': 'La Pedrera', 'state': 'Amazonas'}
 </code></pre>
