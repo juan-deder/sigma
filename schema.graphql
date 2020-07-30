@@ -5,22 +5,22 @@ schema {
     mutation: Mutation
 }
 
-type Mutation {
-    register(city: String, department: String, email: String, name: String): RegisterMutation
-}
-
-type Query {
-    users: [UserType]
-}
-
-type RegisterMutation {
-    user: UserType
-}
-
-type UserType {
+type ContactType {
     city: String!
-    department: String!
     email: String!
     id: ID!
     name: String!
+    state: String!
+}
+
+type Mutation {
+    register(city: String, email: String, name: String, state: String): RegisterMutation
+}
+
+type Query {
+    contacts: [ContactType]
+}
+
+type RegisterMutation {
+    contact: ContactType
 }

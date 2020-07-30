@@ -2,12 +2,12 @@ from django.core.exceptions import ValidationError
 from graphene import Mutation, String, Field, List
 from graphene_django import DjangoObjectType
 
-from users.models import User
+from users.models import Contact
 
 
-class UserType(DjangoObjectType):
+class ContactType(DjangoObjectType):
     class Meta:
-        model = User
+        model = Contact
 
 
 class RegisterMutation(Mutation):
@@ -15,23 +15,23 @@ class RegisterMutation(Mutation):
         name = String()
         email = String()
         city = String()
-        department = String()
+        state = String()
 
-    user = Field(UserType)
+    contact = Field(ContactType)
 
     def mutate(self, info, **kwargs):
-        user = User(**kwargs)
+        contact = Contact(**kwargs)
         try:
-            user.full_clean()
+            contact.full_clean()
         except ValidationError as e:
-            user = None
+            contact = None
         else:
-            user.save()
-        return RegisterMutation(user=user)
+            contact.save()
+        return RegisterMutation(contact=contact)
 
 
 class Query(object):
-    users = List(UserType)
+    contacts = List(ContactType)
 
 
 class Mutation(object):

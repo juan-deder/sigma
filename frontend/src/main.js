@@ -1,8 +1,53 @@
 import Vue from 'vue'
 import App from './App.vue'
+import {createHttpLink} from "apollo-link-http";
+import {InMemoryCache} from "apollo-cache-inmemory";
+import {ApolloClient} from "apollo-client";
+import {ApolloLink, concat} from "apollo-link";
+import VueApollo, {ApolloProvider} from 'vue-apollo'
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 Vue.config.productionTip = false
 
-new Vue({
-  render: function (h) { return h(App) },
-}).$mount('#app')
+window.Cookie = require('js-cookie')
+
+window.axios = require('axios')
+window.axios.defaults.withCredentials = true
+
+Vue.use(VueApollo)
+
+function bootstrap() {
+    let httpLink = new createHttpLink({
+        uri: 'http://127.0.0.1:8000/graphql',
+        credentials: 'include'
+    })
+    let csrfMiddleware = new ApolloLink((operation, forward) => {
+        operation.setContext(({headers = {}}) => ({
+            headers: {
+                ...headers,
+                'X-CSRFToken': Cookie.get('csrftoken')
+            }
+        }))
+        return forward(operation)
+    })
+    let apolloClient = new ApolloClient({
+        link: concat(csrfMiddleware, httpLink),
+        cache: new InMemoryCache()
+    })
+    let apolloProvider = new ApolloProvider({
+        defaultClient: apolloClient
+    })
+
+    new Vue({
+        apolloProvider,
+        render: function (h) {
+            return h(App)
+        },
+    }).$mount('#app')
+}
+
+if (Cookie.get('csrftoken') === undefined)
+    axios.get('http://127.0.0.1:8000/csrf-cookie').then(() => bootstrap())
+else
+    bootstrap()
